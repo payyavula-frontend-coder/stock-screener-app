@@ -7,6 +7,7 @@ import FilterPanel from "../components/screener/FilterPanel";
 import StockChart from "../components/screener/StockChart";
 import { useRealtimePrices } from "../hooks/useRealtimePrices";
 import { filterStocks, type AdvancedFilters } from "../utils/filterEngine";
+import RSIPanel from "../components/screener/RSIPanel";
 
 export default function Home() {
   const stocks = useStockStore((state) => state.stocks);
@@ -52,6 +53,7 @@ export default function Home() {
       <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
 
       <StockChart stock={selectedStock} />
+      <RSIPanel rsi={selectedStock?.rsi ?? 50} />
 
       <StockTable stocks={filteredStocks} onSelectStock={setSelectedStock} />
     </main>

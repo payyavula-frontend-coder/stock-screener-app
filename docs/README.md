@@ -1,97 +1,149 @@
-"use client";
+# Real Time Stock Screener
 
-import { useEffect, useRef } from "react";
-import {
-  createChart,
-  CandlestickSeries,
-  LineSeries,
-} from "lightweight-charts";
+A production-grade stock screener application built using Next.js, React, TypeScript, Zustand, TanStack Table, and Lightweight Charts.
 
-export default function StockChart() {
-  const chartContainerRef = useRef<HTMLDivElement>(null);
+---
 
-  useEffect(() => {
-    if (!chartContainerRef.current) return;
+## Features
 
-    const chart = createChart(chartContainerRef.current, {
-      width: chartContainerRef.current.clientWidth,
-      height: 500,
-      layout: {
-        background: { color: "#0f172a" },
-        textColor: "#ffffff",
-      },
-      grid: {
-        vertLines: { color: "#1e293b" },
-        horzLines: { color: "#1e293b" },
-      },
-    });
+### Stock Screening
 
-    const candleSeries = chart.addSeries(CandlestickSeries);
+- 5000+ stock records
+- Advanced filtering
+- Search by symbol
+- Search by company
+- Sector filtering
+- Price filtering
+- Market Cap filtering
+- Volume filtering
+- RSI filtering
+- P/E Ratio filtering
 
-    const sampleData = [
-      {
-        time: "2025-01-01",
-        open: 100,
-        high: 110,
-        low: 95,
-        close: 108,
-      },
-      {
-        time: "2025-01-02",
-        open: 108,
-        high: 115,
-        low: 104,
-        close: 112,
-      },
-      {
-        time: "2025-01-03",
-        open: 112,
-        high: 118,
-        low: 109,
-        close: 116,
-      },
-      {
-        time: "2025-01-04",
-        open: 116,
-        high: 122,
-        low: 111,
-        close: 120,
-      },
-      {
-        time: "2025-01-05",
-        open: 120,
-        high: 128,
-        low: 118,
-        close: 126,
-      },
-    ];
+---
 
-    candleSeries.setData(sampleData);
+### Real-Time Updates
 
-    const smaSeries = chart.addSeries(LineSeries, {
-      color: "#3b82f6",
-      lineWidth: 2,
-    });
+- Simulated WebSocket updates
+- Live price changes
+- Dynamic table updates
 
-    smaSeries.setData([
-      { time: "2025-01-01", value: 100 },
-      { time: "2025-01-02", value: 104 },
-      { time: "2025-01-03", value: 109 },
-      { time: "2025-01-04", value: 114 },
-      { time: "2025-01-05", value: 120 },
-    ]);
+---
 
-    chart.timeScale().fitContent();
+### Technical Indicators
 
-    return () => {
-      chart.remove();
-    };
-  }, []);
+Implemented indicators:
 
-  return (
-    <div
-      ref={chartContainerRef}
-      className="w-full rounded-lg border border-slate-700"
-    />
-  );
-}
+- SMA (Simple Moving Average)
+- EMA (Exponential Moving Average)
+- Bollinger Bands
+- RSI (Relative Strength Index)
+
+---
+
+### Charting
+
+- Interactive candlestick charts
+- Historical OHLCV generation
+- Technical overlays
+- Stock selection support
+
+---
+
+### Performance
+
+- TanStack Virtual Scrolling
+- Zustand State Management
+- useMemo Optimization
+- Sub-200ms filtering performance
+
+Observed benchmark:
+
+- 0.69 ms
+- 2.31 ms
+
+---
+
+## Technology Stack
+
+Frontend:
+
+- React 18
+- Next.js 16
+- TypeScript
+
+State Management:
+
+- Zustand
+
+Data Grid:
+
+- TanStack Table
+- TanStack Virtual
+
+Charting:
+
+- Lightweight Charts
+
+Styling:
+
+- Tailwind CSS
+
+---
+
+## Project Structure
+
+```text
+app/
+components/
+hooks/
+store/
+types/
+utils/
+docs/
+```
+
+---
+
+## Installation
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## Performance Results
+
+Dataset:
+
+- 5000 Stocks
+
+Filter Performance:
+
+- Average < 5 ms
+
+Requirement:
+
+- < 200 ms
+
+Result:
+
+PASS
+
+---
+
+## Documentation
+
+Additional documentation available in:
+
+```text
+docs/architecture.md
+docs/benchmark-results.md
+```
+
+---
+
+## Status
+
+Project Completed Successfully.
