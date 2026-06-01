@@ -5,11 +5,16 @@ import { useStockStore } from "../store/stockStore";
 import StockTable from "../components/screener/StockTable";
 import FilterPanel from "../components/screener/FilterPanel";
 import type { Sector } from "../types/stock";
+import { useRealtimePrices } from "../hooks/useRealtimePrices";
+import StockChart from "../components/screener/StockChart";
 
 export default function Home() {
   const stocks = useStockStore((state) => state.stocks);
   const [search, setSearch] = useState("");
   const [sector, setSector] = useState<Sector | "All">("All");
+  useRealtimePrices();
+  const selectedStock = useStockStore((state) => state.selectedStock);
+const setSelectedStock = useStockStore((state) => state.setSelectedStock);
 
   const filteredStocks = useMemo(() => {
     const start = performance.now();
@@ -45,8 +50,11 @@ export default function Home() {
         onSearchChange={setSearch}
         onSectorChange={setSector}
       />
+       <div className="mb-6">
+      <StockChart stock={selectedStock} />
+    </div>
 
-      <StockTable stocks={filteredStocks} />
+      <StockTable stocks={filteredStocks} onSelectStock={setSelectedStock} />
     </main>
   );
 }

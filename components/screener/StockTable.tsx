@@ -12,6 +12,7 @@ import type { Stock } from "../../types/stock";
 
 type Props = {
   stocks: Stock[];
+  onSelectStock: (stock: Stock) => void;
 };
 
 const columnHelper = createColumnHelper<Stock>();
@@ -60,7 +61,7 @@ const columns = [
   }),
 ];
 
-export default function StockTable({ stocks }: Props) {
+export default function StockTable({ stocks, onSelectStock }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const table = useReactTable({
@@ -106,6 +107,7 @@ export default function StockTable({ stocks }: Props) {
             return (
               <div
                 key={row.id}
+                 onClick={() => onSelectStock(row.original)}
                 className="grid grid-cols-8 border-b border-slate-800 text-sm hover:bg-slate-800"
                 style={{
                   position: "absolute",
