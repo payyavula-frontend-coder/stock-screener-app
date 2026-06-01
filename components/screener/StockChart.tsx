@@ -32,7 +32,8 @@ export default function StockChart({ stock }: Props) {
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: 420,
+      // height: 420,
+      height: window.innerWidth < 768 ? 300 : 420,
       layout: {
         background: { color: "#0f172a" },
         textColor: "#ffffff",
@@ -125,7 +126,8 @@ export default function StockChart({ stock }: Props) {
         </p>
       </div>
 
-      <div ref={chartContainerRef} className="w-full" />
+      {/* <div ref={chartContainerRef} className="w-full" /> */}
+      <div ref={chartContainerRef} className="min-h-[300px] w-full overflow-hidden" />
     </section>
   );
 }

@@ -80,8 +80,11 @@ export default function StockTable({ stocks, onSelectStock }: Props) {
   });
 
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-900">
-      <div className="grid grid-cols-8 border-b border-slate-700 bg-slate-800 text-sm font-semibold text-slate-200">
+    // <div className="rounded-lg border border-slate-700 bg-slate-900">
+  
+  <div className="w-full overflow-x-auto rounded-lg border border-slate-700 bg-slate-900">
+      {/* <div className="grid grid-cols-8 border-b border-slate-700 bg-slate-800 text-sm font-semibold text-slate-200"> */}
+      <div className="grid min-w-[1100px] grid-cols-8 border-b border-slate-700 bg-slate-800 p-3 font-semibold">
         {table.getHeaderGroups().map((headerGroup) =>
           headerGroup.headers.map((header) => (
             <div key={header.id} className="p-3">
@@ -108,12 +111,14 @@ export default function StockTable({ stocks, onSelectStock }: Props) {
               <div
                 key={row.id}
                  onClick={() => onSelectStock(row.original)}
-                className="grid grid-cols-8 border-b border-slate-800 text-sm hover:bg-slate-800"
+                // className="grid grid-cols-8 border-b border-slate-800 text-sm hover:bg-slate-800"
+                className="grid min-w-[1100px] cursor-pointer grid-cols-8 border-b border-slate-800 text-sm hover:bg-slate-800"
                 style={{
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  width: "100%",
+                  // width: "100%",
+                  width: "1100px",
                   height: `${virtualRow.size}px`,
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
