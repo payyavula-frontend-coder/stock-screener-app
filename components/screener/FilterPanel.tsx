@@ -1,12 +1,11 @@
 "use client";
 
 import type { Sector } from "../../types/stock";
+import type { AdvancedFilters } from "../../utils/filterEngine";
 
 type Props = {
-  search: string;
-  sector: Sector | "All";
-  onSearchChange: (value: string) => void;
-  onSectorChange: (value: Sector | "All") => void;
+  filters: AdvancedFilters;
+  onFilterChange: (key: keyof AdvancedFilters, value: string) => void;
 };
 
 const sectors: (Sector | "All")[] = [
@@ -23,42 +22,74 @@ const sectors: (Sector | "All")[] = [
   "Real Estate",
 ];
 
-export default function FilterPanel({
-  search,
-  sector,
-  onSearchChange,
-  onSectorChange,
-}: Props) {
+export default function FilterPanel({ filters, onFilterChange }: Props) {
   return (
-    <div className="mb-4 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-4 md:grid-cols-2">
-      <div>
-        <label className="mb-2 block text-sm text-slate-300">
-          Search Stock
-        </label>
-        <input
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search by symbol or company"
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none"
-        />
-      </div>
+    <div className="mb-4 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-4 md:grid-cols-4">
+      <input
+        value={filters.search}
+        onChange={(e) => onFilterChange("search", e.target.value)}
+        placeholder="Search stock"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
 
-      <div>
-        <label className="mb-2 block text-sm text-slate-300">
-          Sector
-        </label>
-        <select
-          value={sector}
-          onChange={(e) => onSectorChange(e.target.value as Sector | "All")}
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none"
-        >
-          {sectors.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
+      <select
+        value={filters.sector}
+        onChange={(e) => onFilterChange("sector", e.target.value)}
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      >
+        {sectors.map((sector) => (
+          <option key={sector}>{sector}</option>
+        ))}
+      </select>
+
+      <input
+        value={filters.minPrice}
+        onChange={(e) => onFilterChange("minPrice", e.target.value)}
+        placeholder="Min Price"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.maxPrice}
+        onChange={(e) => onFilterChange("maxPrice", e.target.value)}
+        placeholder="Max Price"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.minMarketCap}
+        onChange={(e) => onFilterChange("minMarketCap", e.target.value)}
+        placeholder="Min Market Cap"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.maxPERatio}
+        onChange={(e) => onFilterChange("maxPERatio", e.target.value)}
+        placeholder="Max P/E"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.minVolume}
+        onChange={(e) => onFilterChange("minVolume", e.target.value)}
+        placeholder="Min Volume"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.minRSI}
+        onChange={(e) => onFilterChange("minRSI", e.target.value)}
+        placeholder="Min RSI"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
+
+      <input
+        value={filters.maxRSI}
+        onChange={(e) => onFilterChange("maxRSI", e.target.value)}
+        placeholder="Max RSI"
+        className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2"
+      />
     </div>
   );
 }

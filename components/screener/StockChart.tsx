@@ -9,6 +9,11 @@ import {
 } from "lightweight-charts";
 import type { Stock } from "../../types/stock";
 import { generateOHLCV } from "../../utils/generateOHLCV";
+import {
+  calculateSMA,
+  calculateEMA,
+  calculateBollingerBands,
+} from "../../utils/indicators";
 
 type Props = {
   stock: Stock | null;
@@ -55,18 +60,50 @@ export default function StockChart({ stock }: Props) {
       lineWidth: 2,
     });
 
-    const smaData = candles.map((candle, index) => {
-      const slice = candles.slice(Math.max(0, index - 9), index + 1);
-      const avg =
-        slice.reduce((sum, item) => sum + item.close, 0) / slice.length;
+    smaSeries.setData(
+      calculateSMA(candles, 10).map((point) => ({
+        time: point.time as Time,
+        value: point.value,
+      }))
+    );
 
-      return {
-        time: candle.time as Time,
-        value: Number(avg.toFixed(2)),
-      };
+    const emaSeries = chart.addSeries(LineSeries, {
+      color: "#f59e0b",
+      lineWidth: 2,
     });
 
-    smaSeries.setData(smaData);
+    emaSeries.setData(
+      calculateEMA(candles, 20).map((point) => ({
+        time: point.time as Time,
+        value: point.value,
+      }))
+    );
+
+    const bollinger = calculateBollingerBands(candles, 20);
+
+    const upperBandSeries = chart.addSeries(LineSeries, {
+      color: "#22c55e",
+      lineWidth: 1,
+    });
+
+    upperBandSeries.setData(
+      bollinger.map((point) => ({
+        time: point.time as Time,
+        value: point.upper,
+      }))
+    );
+
+    const lowerBandSeries = chart.addSeries(LineSeries, {
+      color: "#ef4444",
+      lineWidth: 1,
+    });
+
+    lowerBandSeries.setData(
+      bollinger.map((point) => ({
+        time: point.time as Time,
+        value: point.lower,
+      }))
+    );
 
     chart.timeScale().fitContent();
 
@@ -84,7 +121,7 @@ export default function StockChart({ stock }: Props) {
           {stock.symbol} - {stock.companyName}
         </h2>
         <p className="text-sm text-slate-400">
-          Candlestick Chart with SMA Overlay
+          Candlestick Chart with SMA, EMA and Bollinger Bands
         </p>
       </div>
 
